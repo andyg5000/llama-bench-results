@@ -1,5 +1,8 @@
 {
   "experiment": "001_baseline_f16_262k",
+  "gpu": "gb10",
+  "model": "Qwen3.5-35B-A3B-Q8_0",
+  "run": "",
   "config": {
     "ctx_size": "262144",
     "cache_k": "f16",
@@ -8,154 +11,557 @@
     "ubatch": "512",
     "parallel": "1"
   },
-  "accuracy_tests": [
-    {
-      "id": "math_1",
-      "prompt": "What is 347 * 283? Only respond with the number.",
-      "expected": "98201",
-      "response": "98201",
-      "correct": true,
-      "elapsed": 12.467,
-      "completion_tokens": 608,
-      "predicted_n": 608,
-      "server_gen_tps": 50.2
+  "profiles": {
+    "coding": {
+      "tests": [
+        {
+          "id": "code_read_1",
+          "category": "comprehension",
+          "prompt": "Read this Python function and explain what it does in one sentence:\n\ndef merge_intervals(intervals):",
+          "expected": "merge",
+          "response": "This function sorts a list of intervals by their start times and merges any overlapping intervals into a consolidated list of non-overlapping ranges.",
+          "correct": true,
+          "elapsed": 28.161,
+          "completion_tokens": 1387,
+          "predicted_n": 1387,
+          "server_gen_tps": 50.03,
+          "server_prompt_tps": 293.1,
+          "has_thinking": false
+        },
+        {
+          "id": "code_edit_1",
+          "category": "editing",
+          "prompt": "Add error handling to this function for empty input and non-list input. Return the modified function",
+          "expected": "def merge_intervals",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.847,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.64,
+          "server_prompt_tps": 619.69,
+          "has_thinking": false
+        },
+        {
+          "id": "code_gen_1",
+          "category": "generation",
+          "prompt": "Write a Python function called `find_duplicates` that takes a list and returns a list of elements th",
+          "expected": "def find_duplicates",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.952,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.55,
+          "server_prompt_tps": 360.02,
+          "has_thinking": false
+        },
+        {
+          "id": "code_gen_2",
+          "category": "generation",
+          "prompt": "Write a Python class called LRUCache that implements get(key) and put(key, value) with O(1) operatio",
+          "expected": "class LRUCache",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.8,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.63,
+          "server_prompt_tps": 374.61,
+          "has_thinking": false
+        },
+        {
+          "id": "code_debug_1",
+          "category": "debugging",
+          "prompt": "This function has a bug. Find it and return only the corrected function, no explanation.\n\ndef binary",
+          "expected": "len(arr) - 1",
+          "response": "```python\ndef binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n```",
+          "correct": true,
+          "elapsed": 58.293,
+          "completion_tokens": 2882,
+          "predicted_n": 2882,
+          "server_gen_tps": 49.66,
+          "server_prompt_tps": 586.53,
+          "has_thinking": false
+        },
+        {
+          "id": "code_context_1",
+          "category": "editing",
+          "prompt": "Given this Flask app, add a new endpoint POST /api/users that accepts JSON with 'name' and 'email', ",
+          "expected": "POST",
+          "response": "```python\nfrom flask import Flask, request, jsonify\n\napp = Flask(__name__)\nusers = []\nnext_id = 1\n\n@app.route('/api/users', methods=['GET'])\ndef get_users():\n    return jsonify(users)\n\n@app.route('/api/users', methods=['POST'])\ndef create_user():\n    global next_id\n    data = request.get_json()\n    ",
+          "correct": true,
+          "elapsed": 49.13,
+          "completion_tokens": 2428,
+          "predicted_n": 2428,
+          "server_gen_tps": 49.7,
+          "server_prompt_tps": 678.79,
+          "has_thinking": false
+        },
+        {
+          "id": "code_think_1",
+          "category": "analysis",
+          "prompt": "Analyze this code and suggest the optimal data structure change to improve performance. Think step b",
+          "expected": "hash",
+          "response": "To improve the performance of the `count_pairs` function, the optimal change is to replace the nested loop approach with a hash set-based solution.\n\n### Current Implementation Analysis\n\n```python\ndef count_pairs(nums, target):\n    count = 0\n    for i in range(len(nums)):\n        for j in range(i + 1",
+          "correct": true,
+          "elapsed": 30.5,
+          "completion_tokens": 1508,
+          "predicted_n": 1508,
+          "server_gen_tps": 49.87,
+          "server_prompt_tps": 474.15,
+          "has_thinking": false
+        },
+        {
+          "id": "code_think_2",
+          "category": "optimization",
+          "prompt": "Think through the time and space complexity of this function, then rewrite it to be O(n) time. Retur",
+          "expected": "def has_pair_sum",
+          "response": "The original function uses a nested loop to check all possible pairs, resulting in O(n\u00b2) time complexity. To optimize it to O(n) time, we can use a hash set to track elements we've seen so far. For each element, we check if its complement (target - element) exists in the set.\n\n### Optimized Function",
+          "correct": true,
+          "elapsed": 15.743,
+          "completion_tokens": 774,
+          "predicted_n": 774,
+          "server_gen_tps": 49.95,
+          "server_prompt_tps": 464.21,
+          "has_thinking": false
+        }
+      ],
+      "accuracy": 0.625,
+      "correct": 5,
+      "total": 8,
+      "avg_gen_tps": 49.76,
+      "avg_elapsed": 53.053
     },
-    {
-      "id": "math_2",
-      "prompt": "What is the square root of 144? Only respond with the number.",
-      "expected": "12",
-      "response": "12",
-      "correct": true,
-      "elapsed": 2.324,
-      "completion_tokens": 109,
-      "predicted_n": 109,
-      "server_gen_tps": 50.28
+    "agentic": {
+      "tests": [
+        {
+          "id": "tool_call_1",
+          "category": "tool_use",
+          "prompt": "You have access to the following tools:\n\n- search(query: str) -> list[str]: Search the web\n- read_fi",
+          "expected": "search",
+          "response": "[{\"tool\": \"search\", \"args\": {\"query\": \"Python 3.12 new features\"}}]",
+          "correct": true,
+          "elapsed": 2.293,
+          "completion_tokens": 102,
+          "predicted_n": 102,
+          "server_gen_tps": 50.09,
+          "server_prompt_tps": 613.23,
+          "has_thinking": false
+        },
+        {
+          "id": "tool_call_2",
+          "category": "tool_planning",
+          "prompt": "You have access to these tools:\n\n- get_weather(city: str) -> dict: Get current weather\n- send_email(",
+          "expected": "get_weather",
+          "response": "[{\"tool\": \"get_weather\", \"args\": {\"city\": \"Seattle\"}}, {\"tool\": \"send_email\", \"args\": {\"to\": \"bob@example.com\", \"subject\": \"Reschedule Outdoor Meeting\", \"body\": \"Due to expected rain in Seattle tomorrow, we need to reschedule our outdoor meeting. Please let me know your availability for an alternati",
+          "correct": true,
+          "elapsed": 7.992,
+          "completion_tokens": 388,
+          "predicted_n": 388,
+          "server_gen_tps": 50.14,
+          "server_prompt_tps": 660.75,
+          "has_thinking": false
+        },
+        {
+          "id": "json_output_1",
+          "category": "structured_output",
+          "prompt": "Extract the following information from this text and return it as valid JSON with keys: name, age, o",
+          "expected": "Sarah Chen",
+          "response": "{\n  \"name\": \"Sarah Chen\",\n  \"age\": 34,\n  \"occupation\": \"data engineer\",\n  \"city\": \"Portland\"\n}",
+          "correct": true,
+          "elapsed": 44.57,
+          "completion_tokens": 2209,
+          "predicted_n": 2209,
+          "server_gen_tps": 49.82,
+          "server_prompt_tps": 383.34,
+          "has_thinking": false
+        },
+        {
+          "id": "json_output_2",
+          "category": "structured_output",
+          "prompt": "Parse this error log and return a JSON array of objects with keys: timestamp, level, message.\n\n2024-",
+          "expected": "timestamp",
+          "response": "[\n  {\n    \"timestamp\": \"2024-01-15 10:23:45\",\n    \"level\": \"ERROR\",\n    \"message\": \"Database connection timeout after 30s\"\n  },\n  {\n    \"timestamp\": \"2024-01-15 10:23:46\",\n    \"level\": \"WARN\",\n    \"message\": \"Retrying connection attempt 1/3\"\n  },\n  {\n    \"timestamp\": \"2024-01-15 10:23:51\",\n    \"leve",
+          "correct": true,
+          "elapsed": 53.784,
+          "completion_tokens": 2659,
+          "predicted_n": 2659,
+          "server_gen_tps": 49.68,
+          "server_prompt_tps": 748.04,
+          "has_thinking": false
+        },
+        {
+          "id": "multi_turn_1",
+          "category": "multi_turn",
+          "prompt": "You are a helpful coding assistant. The conversation so far:\n\nUser: I need a function to validate em",
+          "expected": "def validate_email",
+          "response": "```python\ndef validate_email(email):\n    import re\n    \n    # Common disposable email domains\n    disposable_domains = {\n        'mailinator.com', 'tempmail.com', 'guerrillamail.com', \n        '10minutemail.com', 'throwawaymail.com', 'yopmail.com', \n        'temp-mail.org', 'fakeinbox.com', 'sharkla",
+          "correct": true,
+          "elapsed": 35.087,
+          "completion_tokens": 1737,
+          "predicted_n": 1737,
+          "server_gen_tps": 49.91,
+          "server_prompt_tps": 681.99,
+          "has_thinking": false
+        },
+        {
+          "id": "multi_turn_2",
+          "category": "multi_turn",
+          "prompt": "You are a coding assistant. The conversation so far:\n\nUser: Create a simple task manager class in Py",
+          "expected": "class TaskManager",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.967,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.57,
+          "server_prompt_tps": 742.26,
+          "has_thinking": false
+        },
+        {
+          "id": "instruction_follow_1",
+          "category": "structured_output",
+          "prompt": "Return a JSON object with exactly these keys and value types, no additional keys:\n{\n  \"status\": stri",
+          "expected": "\"status\"",
+          "response": "",
+          "correct": false,
+          "elapsed": 81.099,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.47,
+          "server_prompt_tps": 444.13,
+          "has_thinking": false
+        },
+        {
+          "id": "system_prompt_1",
+          "category": "system_adherence",
+          "prompt": "You are a SQL expert assistant. You only respond with valid SQL queries, never with explanations or ",
+          "expected": "SELECT",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.884,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.61,
+          "server_prompt_tps": 467.47,
+          "has_thinking": false
+        }
+      ],
+      "accuracy": 0.625,
+      "correct": 5,
+      "total": 8,
+      "avg_gen_tps": 49.79,
+      "avg_elapsed": 48.335,
+      "concurrent": {
+        "num_requests": 4,
+        "wall_time": 18.266,
+        "results": [
+          {
+            "prompt": "What programming language is known for the GIL? Only one wor",
+            "expected": "python",
+            "correct": true,
+            "elapsed": 5.161,
+            "server_gen_tps": 49.95,
+            "error": null
+          },
+          {
+            "prompt": "What is 42 * 17? Only respond with the number.",
+            "expected": "714",
+            "correct": true,
+            "elapsed": 11.258,
+            "server_gen_tps": 50.14,
+            "error": null
+          },
+          {
+            "prompt": "Name the largest planet in our solar system. Only one word.",
+            "expected": "jupiter",
+            "correct": true,
+            "elapsed": 14.569,
+            "server_gen_tps": 50.07,
+            "error": null
+          },
+          {
+            "prompt": "What is the capital of Japan? Only respond with the city nam",
+            "expected": "tokyo",
+            "correct": true,
+            "elapsed": 18.256,
+            "server_gen_tps": 50.37,
+            "error": null
+          }
+        ],
+        "correct": 4,
+        "aggregate_tps": 200.53
+      }
     },
-    {
-      "id": "math_3",
-      "prompt": "If a train travels at 60 mph for 2.5 hours, how many miles does it travel? Only ",
-      "expected": "150",
-      "response": "150",
-      "correct": true,
-      "elapsed": 5.368,
-      "completion_tokens": 261,
-      "predicted_n": 261,
-      "server_gen_tps": 50.18
+    "speed": {
+      "tests": [
+        {
+          "id": "math_1",
+          "category": "math",
+          "prompt": "What is 347 * 283? Only respond with the number.",
+          "expected": "98201",
+          "response": "98201",
+          "correct": true,
+          "elapsed": 13.934,
+          "completion_tokens": 689,
+          "predicted_n": 689,
+          "server_gen_tps": 50.01,
+          "server_prompt_tps": 258.86,
+          "has_thinking": false
+        },
+        {
+          "id": "math_2",
+          "category": "math",
+          "prompt": "What is the square root of 144? Only respond with the number.",
+          "expected": "12",
+          "response": "12",
+          "correct": true,
+          "elapsed": 4.759,
+          "completion_tokens": 230,
+          "predicted_n": 230,
+          "server_gen_tps": 50.01,
+          "server_prompt_tps": 254.51,
+          "has_thinking": false
+        },
+        {
+          "id": "math_3",
+          "category": "math",
+          "prompt": "If a train travels at 60 mph for 2.5 hours, how many miles does it travel? Only respond with the num",
+          "expected": "150",
+          "response": "150",
+          "correct": true,
+          "elapsed": 5.866,
+          "completion_tokens": 285,
+          "predicted_n": 285,
+          "server_gen_tps": 50.05,
+          "server_prompt_tps": 317.61,
+          "has_thinking": false
+        },
+        {
+          "id": "reason_1",
+          "category": "reasoning",
+          "prompt": "Alice is taller than Bob. Bob is taller than Charlie. Who is the shortest? Only respond with the nam",
+          "expected": "charlie",
+          "response": "Charlie",
+          "correct": true,
+          "elapsed": 5.814,
+          "completion_tokens": 282,
+          "predicted_n": 282,
+          "server_gen_tps": 50.0,
+          "server_prompt_tps": 282.12,
+          "has_thinking": false
+        },
+        {
+          "id": "reason_2",
+          "category": "reasoning",
+          "prompt": "I have 3 apples. I eat 1 and give away 1. How many do I have left? Only respond with the number.",
+          "expected": "1",
+          "response": "1",
+          "correct": true,
+          "elapsed": 6.14,
+          "completion_tokens": 298,
+          "predicted_n": 298,
+          "server_gen_tps": 49.92,
+          "server_prompt_tps": 327.31,
+          "has_thinking": false
+        },
+        {
+          "id": "code_1",
+          "category": "code",
+          "prompt": "Write a Python function that returns the factorial of n. Only output the function, no explanation.",
+          "expected": "def factorial",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.793,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.61,
+          "server_prompt_tps": 270.4,
+          "has_thinking": false
+        },
+        {
+          "id": "knowledge_1",
+          "category": "knowledge",
+          "prompt": "What is the capital of France? Only respond with the city name.",
+          "expected": "paris",
+          "response": "Paris",
+          "correct": true,
+          "elapsed": 4.12,
+          "completion_tokens": 197,
+          "predicted_n": 197,
+          "server_gen_tps": 50.02,
+          "server_prompt_tps": 238.6,
+          "has_thinking": false
+        },
+        {
+          "id": "knowledge_2",
+          "category": "knowledge",
+          "prompt": "What is the chemical symbol for gold? Only respond with the symbol.",
+          "expected": "au",
+          "response": "Au",
+          "correct": true,
+          "elapsed": 4.103,
+          "completion_tokens": 199,
+          "predicted_n": 199,
+          "server_gen_tps": 50.41,
+          "server_prompt_tps": 238.15,
+          "has_thinking": false
+        },
+        {
+          "id": "list_1",
+          "category": "instruction",
+          "prompt": "Repeat the following list back to me exactly: apple, banana, cherry, date, elderberry, fig, grape, h",
+          "expected": "apple, banana, cherry",
+          "response": "apple, banana, cherry, date, elderberry, fig, grape, honeydew, kiwi, lemon, mango, nectarine, orange, papaya, quince, raspberry, strawberry, tangerine, watermelon.",
+          "correct": true,
+          "elapsed": 16.076,
+          "completion_tokens": 793,
+          "predicted_n": 793,
+          "server_gen_tps": 49.96,
+          "server_prompt_tps": 496.81,
+          "has_thinking": false
+        },
+        {
+          "id": "count_1",
+          "category": "instruction",
+          "prompt": "Count from 1 to 10, separating each number with a comma. Only output the numbers.",
+          "expected": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10",
+          "response": "1,2,3,4,5,6,7,8,9,10",
+          "correct": false,
+          "elapsed": 19.855,
+          "completion_tokens": 983,
+          "predicted_n": 983,
+          "server_gen_tps": 49.98,
+          "server_prompt_tps": 275.67,
+          "has_thinking": false
+        },
+        {
+          "id": "nothink_1",
+          "category": "math_nothink",
+          "prompt": "What is 15 * 17? Only respond with the number. Do not explain your reasoning.",
+          "expected": "255",
+          "response": "255",
+          "correct": true,
+          "elapsed": 5.675,
+          "completion_tokens": 275,
+          "predicted_n": 275,
+          "server_gen_tps": 49.98,
+          "server_prompt_tps": 287.4,
+          "has_thinking": false
+        },
+        {
+          "id": "nothink_2",
+          "category": "instruction_nothink",
+          "prompt": "Sort these numbers ascending: 9, 3, 7, 1, 5. Only output the sorted comma-separated list.",
+          "expected": "1, 3, 5, 7, 9",
+          "response": "1, 3, 5, 7, 9",
+          "correct": true,
+          "elapsed": 6.387,
+          "completion_tokens": 311,
+          "predicted_n": 311,
+          "server_gen_tps": 50.06,
+          "server_prompt_tps": 323.91,
+          "has_thinking": false
+        }
+      ],
+      "accuracy": 0.833,
+      "correct": 10,
+      "total": 12,
+      "avg_gen_tps": 50.0,
+      "avg_elapsed": 14.46
     },
-    {
-      "id": "reason_1",
-      "prompt": "Alice is taller than Bob. Bob is taller than Charlie. Who is the shortest? Only ",
-      "expected": "Charlie",
-      "response": "Charlie",
-      "correct": true,
-      "elapsed": 5.009,
-      "completion_tokens": 243,
-      "predicted_n": 243,
-      "server_gen_tps": 50.13
-    },
-    {
-      "id": "reason_2",
-      "prompt": "I have 3 apples. I eat 1 and give away 1. How many do I have left? Only respond ",
-      "expected": "1",
-      "response": "1",
-      "correct": true,
-      "elapsed": 4.798,
-      "completion_tokens": 231,
-      "predicted_n": 231,
-      "server_gen_tps": 49.98
-    },
-    {
-      "id": "code_1",
-      "prompt": "Write a Python function that returns the factorial of n. Only output the functio",
-      "expected": "def factorial",
-      "response": "",
-      "correct": false,
-      "elapsed": 40.254,
-      "completion_tokens": 2000,
-      "predicted_n": 2000,
-      "server_gen_tps": 49.88
-    },
-    {
-      "id": "knowledge_1",
-      "prompt": "What is the capital of France? Only respond with the city name.",
-      "expected": "Paris",
-      "response": "Paris",
-      "correct": true,
-      "elapsed": 3.687,
-      "completion_tokens": 176,
-      "predicted_n": 176,
-      "server_gen_tps": 50.19
-    },
-    {
-      "id": "knowledge_2",
-      "prompt": "What is the chemical symbol for gold? Only respond with the symbol.",
-      "expected": "Au",
-      "response": "Au",
-      "correct": true,
-      "elapsed": 2.933,
-      "completion_tokens": 141,
-      "predicted_n": 141,
-      "server_gen_tps": 50.58
-    },
-    {
-      "id": "long_ctx_1",
-      "prompt": "Repeat the following list back to me exactly: apple, banana, cherry, date, elder",
-      "expected": "apple, banana, cherry",
-      "response": "apple, banana, cherry, date, elderberry, fig, grape, honeydew, kiwi, lemon, mango, nectarine, orange, papaya, quince, raspberry, strawberry, tangerine, watermelon",
-      "correct": true,
-      "elapsed": 10.39,
-      "completion_tokens": 511,
-      "predicted_n": 511,
-      "server_gen_tps": 50.14
-    },
-    {
-      "id": "instruction_1",
-      "prompt": "Count from 1 to 10, separating each number with a comma. Only output the numbers",
-      "expected": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10",
-      "response": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10",
-      "correct": true,
-      "elapsed": 22.877,
-      "completion_tokens": 1133,
-      "predicted_n": 1133,
-      "server_gen_tps": 49.93
-    }
-  ],
-  "benchmarks": {
-    "long_context": {
-      "content": "fox",
-      "elapsed": 7.1163628329959465,
-      "prompt_tokens": 2046,
-      "completion_tokens": 297,
-      "total_tokens": 2343,
-      "server_prompt_tps": 1930.3143317819745,
-      "server_gen_tps": 49.4962300371455,
-      "server_prompt_ms": 1059.931,
-      "server_gen_ms": 6000.457,
-      "predicted_n": 297,
-      "is_correct": true,
-      "test_type": "long_context"
-    },
-    "generation": {
-      "content": "**From Gears to Global Networks: A History of Computing**\n\nThe history of computing is not merely a chronicle of technological advancement; it is a narrative of humanity's relentless pursuit to extend the capabilities of the mind. From the earliest mechanical aids to the complex, interconnected digital ecosystems of the twenty-first century, the evolution of computing has fundamentally reshaped economics, culture, science, and daily life. While the journey spans millennia, five specific milestones stand out as the pillars upon which the modern digital world rests: the conceptualization of the programmable machine, the advent of electronic general-purpose computing, the invention of the transistor, the creation of the microprocessor, and the birth of the World Wide Web.\n\nThe first major milestone in the history of computing is the conceptualization of the **Analytical Engine by Charles Babbage in 1837**. While the abacus and mechanical calculators like Pascal's *Pascaline* existed long before, they were limited to performing specific arithmetic operations. Charles Babbage, an English mathematician, envisioned a machine that could perform any mathematical calculation if given the correct instructions. His design for the Analytical Engine included an arithmetic logic unit, control flow in the form of conditional branching and loops, and integrated memory. Crucially, it utilized punch cards, a concept borrowed from the Jacquard loom, to input data and programs. Although Babbage never completed the machine due to funding issues and engineering limitations of the Victorian era, the design established the fundamental architecture of the modern computer. Furthermore, it was during this period that Ada Lovelace, a mathematician and Babbage's collaborator, wrote the first algorithm intended to be processed by a machine. Her insight that the engine could manipulate symbols beyond mere numbers laid the philosophical groundwork for software and programming.\n\nThe second milestone marks the transition from mechanical to electronic computation: the completion of the **ENIAC (Electronic Numerical Integrator and Computer) in 1945**. Developed by John Mauchly and J. Presper Eckert at the University of Pennsylvania, the ENIAC was the first electronic, general-purpose digital computer. Unlike Babbage's machine, which relied on gears and levers, the ENIAC used 18,000 vacuum tubes to perform calculations. This shift was revolutionary; the ENIAC could calculate artillery firing tables in seconds, a task that would take human computers hours. However, the ENIAC was massive, occupying a 1,800-square-foot room and consuming vast amounts of power. It was also difficult to program, requiring engineers to physically rewire the machine for different tasks. Despite its clunkiness, the ENIAC proved that electronic logic was faster and more reliable than mechanical logic, setting the stage for the rapid miniaturization of computing hardware.\n\nThe third pivotal moment in computing history is the invention of the **transistor in 1947**. For the first few decades of electronic computing, vacuum tubes were the standard for switching and amplifying signals. However, tubes were fragile, generated immense heat, and failed frequently. In 1947, physicists John Bardeen, Walter Brattain, and William Shockley at Bell Labs invented the transistor, a semiconductor device that could amplify or switch electrical signals. The transistor was smaller, more durable, and far more energy-efficient than vacuum tubes. This invention was the catalyst for the integrated circuit (IC) and the subsequent explosion of computing power known as Moore's Law. Without the transistor, the computers of the 1950s and 60s would have remained room-sized beh",
-      "elapsed": 40.28047729100217,
-      "prompt_tokens": 28,
-      "completion_tokens": 2000,
-      "total_tokens": 2028,
-      "server_prompt_tps": 224.59292532285232,
-      "server_gen_tps": 49.92145109277807,
-      "server_prompt_ms": 124.67,
-      "server_gen_ms": 40062.938,
-      "predicted_n": 2000,
-      "test_type": "generation_speed"
+    "context": {
+      "tests": [
+        {
+          "id": "ctx_short",
+          "category": "needle_short",
+          "description": "~500 token context with embedded needle",
+          "prompt_tokens": 558,
+          "completion_tokens": 369,
+          "server_prompt_tps": 1369.64,
+          "server_gen_tps": 49.88,
+          "elapsed": 7.844,
+          "correct": true,
+          "response": "ALPHA-7749"
+        },
+        {
+          "id": "ctx_medium",
+          "category": "needle_medium",
+          "description": "~4k token context with embedded needle",
+          "prompt_tokens": 4059,
+          "completion_tokens": 384,
+          "server_prompt_tps": 1968.37,
+          "server_gen_tps": 49.09,
+          "elapsed": 9.958,
+          "correct": true,
+          "response": "BRAVO-3312"
+        },
+        {
+          "id": "ctx_long",
+          "category": "needle_long",
+          "description": "~20k token context with embedded needle",
+          "prompt_tokens": 20060,
+          "completion_tokens": 425,
+          "server_prompt_tps": 1972.74,
+          "server_gen_tps": 45.04,
+          "elapsed": 19.729,
+          "correct": true,
+          "response": "CHARLIE-5581"
+        },
+        {
+          "id": "ctx_xlarge",
+          "category": "needle_xlarge",
+          "description": "~80k token context with embedded needle",
+          "prompt_tokens": 80059,
+          "completion_tokens": 500,
+          "server_prompt_tps": 1761.76,
+          "server_gen_tps": 35.17,
+          "elapsed": 59.975,
+          "correct": false,
+          "response": "DELTA-992"
+        },
+        {
+          "id": "gen_speed",
+          "category": "generation_speed",
+          "description": "Pure generation speed test with short prompt",
+          "prompt_tokens": 28,
+          "completion_tokens": 2000,
+          "server_prompt_tps": 180.55,
+          "server_gen_tps": 49.81,
+          "elapsed": 40.934,
+          "predicted_n": 2000
+        }
+      ],
+      "avg_pp_tps": 1768.13
     }
   },
-  "summary": {
-    "accuracy": 0.9,
-    "correct": 9,
-    "total": 10,
-    "generation_tps": 49.92,
-    "avg_gen_tps": 50.15,
-    "prompt_processing_tps": 1930.31
+  "score_card": {
+    "coding": {
+      "accuracy": 0.625,
+      "avg_gen_tps": 49.76,
+      "avg_elapsed": 53.053,
+      "grade": "C"
+    },
+    "agentic": {
+      "accuracy": 0.625,
+      "concurrent_accuracy": 1.0,
+      "concurrent_wall_time": 18.266,
+      "combined_score": 0.738,
+      "grade": "B-"
+    },
+    "speed": {
+      "accuracy": 0.833,
+      "avg_gen_tps": 50.0,
+      "grade": "B+"
+    },
+    "context": {
+      "needle_accuracy": 0.75,
+      "needle_correct": 3,
+      "needle_total": 4,
+      "avg_pp_tps": 1768.13,
+      "grade": "B"
+    }
   },
   "server_metrics": {}
 }
