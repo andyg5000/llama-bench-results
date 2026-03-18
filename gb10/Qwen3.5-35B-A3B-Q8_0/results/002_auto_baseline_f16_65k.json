@@ -1,0 +1,559 @@
+{
+  "experiment": "002_auto_baseline_f16_65k",
+  "gpu": "gb10",
+  "model": "Qwen3.5-35B-A3B-Q8_0",
+  "run": "",
+  "config": {
+    "ctx_size": "65536",
+    "cache_k": "f16",
+    "cache_v": "f16",
+    "batch": "1024",
+    "ubatch": "256",
+    "parallel": "1"
+  },
+  "profiles": {
+    "coding": {
+      "tests": [
+        {
+          "id": "code_read_1",
+          "category": "comprehension",
+          "prompt": "Read this Python function and explain what it does in one sentence:\n\ndef merge_intervals(intervals):",
+          "expected": "merge",
+          "response": "This function sorts a list of intervals by their start times and merges any overlapping intervals into a consolidated list of non-overlapping ranges.",
+          "correct": true,
+          "elapsed": 27.885,
+          "completion_tokens": 1387,
+          "predicted_n": 1387,
+          "server_gen_tps": 50.42,
+          "server_prompt_tps": 344.15,
+          "has_thinking": false
+        },
+        {
+          "id": "code_edit_1",
+          "category": "editing",
+          "prompt": "Add error handling to this function for empty input and non-list input. Return the modified function",
+          "expected": "def merge_intervals",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.262,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 50.01,
+          "server_prompt_tps": 620.13,
+          "has_thinking": false
+        },
+        {
+          "id": "code_gen_1",
+          "category": "generation",
+          "prompt": "Write a Python function called `find_duplicates` that takes a list and returns a list of elements th",
+          "expected": "def find_duplicates",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.489,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.84,
+          "server_prompt_tps": 358.68,
+          "has_thinking": false
+        },
+        {
+          "id": "code_gen_2",
+          "category": "generation",
+          "prompt": "Write a Python class called LRUCache that implements get(key) and put(key, value) with O(1) operatio",
+          "expected": "class LRUCache",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.445,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.85,
+          "server_prompt_tps": 381.69,
+          "has_thinking": false
+        },
+        {
+          "id": "code_debug_1",
+          "category": "debugging",
+          "prompt": "This function has a bug. Find it and return only the corrected function, no explanation.\n\ndef binary",
+          "expected": "len(arr) - 1",
+          "response": "```python\ndef binary_search(arr, target):\n    low, high = 0, len(arr) - 1\n    while low <= high:\n        mid = (low + high) // 2\n        if arr[mid] == target:\n            return mid\n        elif arr[mid] < target:\n            low = mid + 1\n        else:\n            high = mid - 1\n    return -1\n```",
+          "correct": true,
+          "elapsed": 58.07,
+          "completion_tokens": 2882,
+          "predicted_n": 2882,
+          "server_gen_tps": 49.85,
+          "server_prompt_tps": 595.63,
+          "has_thinking": false
+        },
+        {
+          "id": "code_context_1",
+          "category": "editing",
+          "prompt": "Given this Flask app, add a new endpoint POST /api/users that accepts JSON with 'name' and 'email', ",
+          "expected": "POST",
+          "response": "```python\nfrom flask import Flask, request, jsonify\n\napp = Flask(__name__)\nusers = []\nnext_id = 1\n\n@app.route('/api/users', methods=['GET'])\ndef get_users():\n    return jsonify(users)\n\n@app.route('/api/users', methods=['POST'])\ndef create_user():\n    global next_id\n    data = request.get_json()\n    ",
+          "correct": true,
+          "elapsed": 48.957,
+          "completion_tokens": 2428,
+          "predicted_n": 2428,
+          "server_gen_tps": 49.88,
+          "server_prompt_tps": 663.27,
+          "has_thinking": false
+        },
+        {
+          "id": "code_think_1",
+          "category": "analysis",
+          "prompt": "Analyze this code and suggest the optimal data structure change to improve performance. Think step b",
+          "expected": "hash",
+          "response": "To improve the performance of the `count_pairs` function, the optimal change is to replace the nested loop approach with a hash set-based solution.\n\n### Current Implementation Analysis\n\n```python\ndef count_pairs(nums, target):\n    count = 0\n    for i in range(len(nums)):\n        for j in range(i + 1",
+          "correct": true,
+          "elapsed": 30.416,
+          "completion_tokens": 1508,
+          "predicted_n": 1508,
+          "server_gen_tps": 50.0,
+          "server_prompt_tps": 493.3,
+          "has_thinking": false
+        },
+        {
+          "id": "code_think_2",
+          "category": "optimization",
+          "prompt": "Think through the time and space complexity of this function, then rewrite it to be O(n) time. Retur",
+          "expected": "def has_pair_sum",
+          "response": "The original function uses a nested loop to check all possible pairs, resulting in O(n\u00b2) time complexity. To optimize it to O(n) time, we can use a hash set to track elements we've seen so far. For each element, we check if its complement (target - element) exists in the set.\n\n### Optimized Function",
+          "correct": true,
+          "elapsed": 15.706,
+          "completion_tokens": 774,
+          "predicted_n": 774,
+          "server_gen_tps": 50.09,
+          "server_prompt_tps": 465.99,
+          "has_thinking": false
+        }
+      ],
+      "accuracy": 0.625,
+      "correct": 5,
+      "total": 8,
+      "avg_gen_tps": 49.99,
+      "avg_elapsed": 52.779
+    },
+    "agentic": {
+      "tests": [
+        {
+          "id": "tool_call_1",
+          "category": "tool_use",
+          "prompt": "You have access to the following tools:\n\n- search(query: str) -> list[str]: Search the web\n- read_fi",
+          "expected": "search",
+          "response": "[{\"tool\": \"search\", \"args\": {\"query\": \"Python 3.12 new features\"}}]",
+          "correct": true,
+          "elapsed": 2.266,
+          "completion_tokens": 102,
+          "predicted_n": 102,
+          "server_gen_tps": 50.73,
+          "server_prompt_tps": 617.28,
+          "has_thinking": false
+        },
+        {
+          "id": "tool_call_2",
+          "category": "tool_planning",
+          "prompt": "You have access to these tools:\n\n- get_weather(city: str) -> dict: Get current weather\n- send_email(",
+          "expected": "get_weather",
+          "response": "[{\"tool\": \"get_weather\", \"args\": {\"city\": \"Seattle\"}}, {\"tool\": \"send_email\", \"args\": {\"to\": \"bob@example.com\", \"subject\": \"Reschedule Outdoor Meeting\", \"body\": \"Due to expected rain in Seattle tomorrow, we need to reschedule our outdoor meeting. Please let me know your availability for an alternati",
+          "correct": true,
+          "elapsed": 7.983,
+          "completion_tokens": 388,
+          "predicted_n": 388,
+          "server_gen_tps": 50.19,
+          "server_prompt_tps": 663.98,
+          "has_thinking": false
+        },
+        {
+          "id": "json_output_1",
+          "category": "structured_output",
+          "prompt": "Extract the following information from this text and return it as valid JSON with keys: name, age, o",
+          "expected": "Sarah Chen",
+          "response": "{\n  \"name\": \"Sarah Chen\",\n  \"age\": 34,\n  \"occupation\": \"data engineer\",\n  \"city\": \"Portland\"\n}",
+          "correct": true,
+          "elapsed": 44.442,
+          "completion_tokens": 2209,
+          "predicted_n": 2209,
+          "server_gen_tps": 49.95,
+          "server_prompt_tps": 391.03,
+          "has_thinking": false
+        },
+        {
+          "id": "json_output_2",
+          "category": "structured_output",
+          "prompt": "Parse this error log and return a JSON array of objects with keys: timestamp, level, message.\n\n2024-",
+          "expected": "timestamp",
+          "response": "[\n  {\n    \"timestamp\": \"2024-01-15 10:23:45\",\n    \"level\": \"ERROR\",\n    \"message\": \"Database connection timeout after 30s\"\n  },\n  {\n    \"timestamp\": \"2024-01-15 10:23:46\",\n    \"level\": \"WARN\",\n    \"message\": \"Retrying connection attempt 1/3\"\n  },\n  {\n    \"timestamp\": \"2024-01-15 10:23:51\",\n    \"leve",
+          "correct": true,
+          "elapsed": 53.637,
+          "completion_tokens": 2659,
+          "predicted_n": 2659,
+          "server_gen_tps": 49.8,
+          "server_prompt_tps": 749.08,
+          "has_thinking": false
+        },
+        {
+          "id": "multi_turn_1",
+          "category": "multi_turn",
+          "prompt": "You are a helpful coding assistant. The conversation so far:\n\nUser: I need a function to validate em",
+          "expected": "def validate_email",
+          "response": "```python\ndef validate_email(email):\n    import re\n    \n    # Common disposable email domains\n    disposable_domains = {\n        'mailinator.com', 'tempmail.com', 'guerrillamail.com', \n        '10minutemail.com', 'throwawaymail.com', 'yopmail.com', \n        'temp-mail.org', 'fakeinbox.com', 'sharkla",
+          "correct": true,
+          "elapsed": 34.999,
+          "completion_tokens": 1737,
+          "predicted_n": 1737,
+          "server_gen_tps": 50.02,
+          "server_prompt_tps": 681.69,
+          "has_thinking": false
+        },
+        {
+          "id": "multi_turn_2",
+          "category": "multi_turn",
+          "prompt": "You are a coding assistant. The conversation so far:\n\nUser: Create a simple task manager class in Py",
+          "expected": "class TaskManager",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.818,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.67,
+          "server_prompt_tps": 745.64,
+          "has_thinking": false
+        },
+        {
+          "id": "instruction_follow_1",
+          "category": "structured_output",
+          "prompt": "Return a JSON object with exactly these keys and value types, no additional keys:\n{\n  \"status\": stri",
+          "expected": "\"status\"",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.878,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.61,
+          "server_prompt_tps": 439.16,
+          "has_thinking": false
+        },
+        {
+          "id": "system_prompt_1",
+          "category": "system_adherence",
+          "prompt": "You are a SQL expert assistant. You only respond with valid SQL queries, never with explanations or ",
+          "expected": "SELECT",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.724,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.7,
+          "server_prompt_tps": 471.2,
+          "has_thinking": false
+        }
+      ],
+      "accuracy": 0.625,
+      "correct": 5,
+      "total": 8,
+      "avg_gen_tps": 49.96,
+      "avg_elapsed": 48.218,
+      "concurrent": {
+        "num_requests": 4,
+        "wall_time": 18.242,
+        "results": [
+          {
+            "prompt": "What is 42 * 17? Only respond with the number.",
+            "expected": "714",
+            "correct": true,
+            "elapsed": 6.146,
+            "server_gen_tps": 50.21,
+            "error": null
+          },
+          {
+            "prompt": "What is the capital of Japan? Only respond with the city nam",
+            "expected": "tokyo",
+            "correct": true,
+            "elapsed": 9.838,
+            "server_gen_tps": 50.24,
+            "error": null
+          },
+          {
+            "prompt": "Name the largest planet in our solar system. Only one word.",
+            "expected": "jupiter",
+            "correct": true,
+            "elapsed": 13.114,
+            "server_gen_tps": 50.56,
+            "error": null
+          },
+          {
+            "prompt": "What programming language is known for the GIL? Only one wor",
+            "expected": "python",
+            "correct": true,
+            "elapsed": 18.192,
+            "server_gen_tps": 50.17,
+            "error": null
+          }
+        ],
+        "correct": 4,
+        "aggregate_tps": 201.18
+      }
+    },
+    "speed": {
+      "tests": [
+        {
+          "id": "math_1",
+          "category": "math",
+          "prompt": "What is 347 * 283? Only respond with the number.",
+          "expected": "98201",
+          "response": "98201",
+          "correct": true,
+          "elapsed": 13.898,
+          "completion_tokens": 689,
+          "predicted_n": 689,
+          "server_gen_tps": 50.16,
+          "server_prompt_tps": 250.4,
+          "has_thinking": false
+        },
+        {
+          "id": "math_2",
+          "category": "math",
+          "prompt": "What is the square root of 144? Only respond with the number.",
+          "expected": "12",
+          "response": "12",
+          "correct": true,
+          "elapsed": 4.75,
+          "completion_tokens": 230,
+          "predicted_n": 230,
+          "server_gen_tps": 50.11,
+          "server_prompt_tps": 255.11,
+          "has_thinking": false
+        },
+        {
+          "id": "math_3",
+          "category": "math",
+          "prompt": "If a train travels at 60 mph for 2.5 hours, how many miles does it travel? Only respond with the num",
+          "expected": "150",
+          "response": "150",
+          "correct": true,
+          "elapsed": 5.849,
+          "completion_tokens": 285,
+          "predicted_n": 285,
+          "server_gen_tps": 50.17,
+          "server_prompt_tps": 316.09,
+          "has_thinking": false
+        },
+        {
+          "id": "reason_1",
+          "category": "reasoning",
+          "prompt": "Alice is taller than Bob. Bob is taller than Charlie. Who is the shortest? Only respond with the nam",
+          "expected": "charlie",
+          "response": "Charlie",
+          "correct": true,
+          "elapsed": 5.805,
+          "completion_tokens": 282,
+          "predicted_n": 282,
+          "server_gen_tps": 49.97,
+          "server_prompt_tps": 290.58,
+          "has_thinking": false
+        },
+        {
+          "id": "reason_2",
+          "category": "reasoning",
+          "prompt": "I have 3 apples. I eat 1 and give away 1. How many do I have left? Only respond with the number.",
+          "expected": "1",
+          "response": "1",
+          "correct": true,
+          "elapsed": 6.102,
+          "completion_tokens": 298,
+          "predicted_n": 298,
+          "server_gen_tps": 50.21,
+          "server_prompt_tps": 323.66,
+          "has_thinking": false
+        },
+        {
+          "id": "code_1",
+          "category": "code",
+          "prompt": "Write a Python function that returns the factorial of n. Only output the function, no explanation.",
+          "expected": "def factorial",
+          "response": "",
+          "correct": false,
+          "elapsed": 80.644,
+          "completion_tokens": 4000,
+          "predicted_n": 4000,
+          "server_gen_tps": 49.7,
+          "server_prompt_tps": 275.91,
+          "has_thinking": false
+        },
+        {
+          "id": "knowledge_1",
+          "category": "knowledge",
+          "prompt": "What is the capital of France? Only respond with the city name.",
+          "expected": "paris",
+          "response": "Paris",
+          "correct": true,
+          "elapsed": 4.096,
+          "completion_tokens": 197,
+          "predicted_n": 197,
+          "server_gen_tps": 50.23,
+          "server_prompt_tps": 238.65,
+          "has_thinking": false
+        },
+        {
+          "id": "knowledge_2",
+          "category": "knowledge",
+          "prompt": "What is the chemical symbol for gold? Only respond with the symbol.",
+          "expected": "au",
+          "response": "Au",
+          "correct": true,
+          "elapsed": 4.105,
+          "completion_tokens": 199,
+          "predicted_n": 199,
+          "server_gen_tps": 50.34,
+          "server_prompt_tps": 234.96,
+          "has_thinking": false
+        },
+        {
+          "id": "list_1",
+          "category": "instruction",
+          "prompt": "Repeat the following list back to me exactly: apple, banana, cherry, date, elderberry, fig, grape, h",
+          "expected": "apple, banana, cherry",
+          "response": "apple, banana, cherry, date, elderberry, fig, grape, honeydew, kiwi, lemon, mango, nectarine, orange, papaya, quince, raspberry, strawberry, tangerine, watermelon.",
+          "correct": true,
+          "elapsed": 16.006,
+          "completion_tokens": 793,
+          "predicted_n": 793,
+          "server_gen_tps": 50.14,
+          "server_prompt_tps": 501.21,
+          "has_thinking": false
+        },
+        {
+          "id": "count_1",
+          "category": "instruction",
+          "prompt": "Count from 1 to 10, separating each number with a comma. Only output the numbers.",
+          "expected": "1, 2, 3, 4, 5, 6, 7, 8, 9, 10",
+          "response": "1,2,3,4,5,6,7,8,9,10",
+          "correct": false,
+          "elapsed": 19.815,
+          "completion_tokens": 983,
+          "predicted_n": 983,
+          "server_gen_tps": 50.08,
+          "server_prompt_tps": 266.26,
+          "has_thinking": false
+        },
+        {
+          "id": "nothink_1",
+          "category": "math_nothink",
+          "prompt": "What is 15 * 17? Only respond with the number. Do not explain your reasoning.",
+          "expected": "255",
+          "response": "255",
+          "correct": true,
+          "elapsed": 5.647,
+          "completion_tokens": 275,
+          "predicted_n": 275,
+          "server_gen_tps": 50.15,
+          "server_prompt_tps": 288.55,
+          "has_thinking": false
+        },
+        {
+          "id": "nothink_2",
+          "category": "instruction_nothink",
+          "prompt": "Sort these numbers ascending: 9, 3, 7, 1, 5. Only output the sorted comma-separated list.",
+          "expected": "1, 3, 5, 7, 9",
+          "response": "1, 3, 5, 7, 9",
+          "correct": true,
+          "elapsed": 6.366,
+          "completion_tokens": 311,
+          "predicted_n": 311,
+          "server_gen_tps": 50.2,
+          "server_prompt_tps": 320.02,
+          "has_thinking": false
+        }
+      ],
+      "accuracy": 0.833,
+      "correct": 10,
+      "total": 12,
+      "avg_gen_tps": 50.12,
+      "avg_elapsed": 14.423
+    },
+    "context": {
+      "tests": [
+        {
+          "id": "ctx_short",
+          "category": "needle_short",
+          "description": "~500 token context with embedded needle",
+          "prompt_tokens": 558,
+          "completion_tokens": 297,
+          "server_prompt_tps": 1080.6,
+          "server_gen_tps": 50.16,
+          "elapsed": 6.482,
+          "correct": true,
+          "response": "ALPHA-7749"
+        },
+        {
+          "id": "ctx_medium",
+          "category": "needle_medium",
+          "description": "~4k token context with embedded needle",
+          "prompt_tokens": 4059,
+          "completion_tokens": 396,
+          "server_prompt_tps": 1459.81,
+          "server_gen_tps": 49.17,
+          "elapsed": 10.914,
+          "correct": true,
+          "response": "BRAVO-3312"
+        },
+        {
+          "id": "ctx_long",
+          "category": "needle_long",
+          "description": "~20k token context with embedded needle",
+          "prompt_tokens": 20060,
+          "completion_tokens": 416,
+          "server_prompt_tps": 1489.78,
+          "server_gen_tps": 45.14,
+          "elapsed": 22.801,
+          "correct": true,
+          "response": "CHARLIE-5581"
+        },
+        {
+          "id": "ctx_xlarge",
+          "error": "HTTP Error 400: Bad Request"
+        },
+        {
+          "id": "gen_speed",
+          "category": "generation_speed",
+          "description": "Pure generation speed test with short prompt",
+          "prompt_tokens": 28,
+          "completion_tokens": 2000,
+          "server_prompt_tps": 216.75,
+          "server_gen_tps": 50.05,
+          "elapsed": 40.108,
+          "predicted_n": 2000
+        }
+      ],
+      "avg_pp_tps": 1343.39
+    }
+  },
+  "score_card": {
+    "coding": {
+      "accuracy": 0.625,
+      "avg_gen_tps": 49.99,
+      "avg_elapsed": 52.779,
+      "grade": "C"
+    },
+    "agentic": {
+      "accuracy": 0.625,
+      "concurrent_accuracy": 1.0,
+      "concurrent_wall_time": 18.242,
+      "combined_score": 0.738,
+      "grade": "B-"
+    },
+    "speed": {
+      "accuracy": 0.833,
+      "avg_gen_tps": 50.12,
+      "grade": "B+"
+    },
+    "context": {
+      "needle_accuracy": 1.0,
+      "needle_correct": 3,
+      "needle_total": 3,
+      "avg_pp_tps": 1343.39,
+      "grade": "A+"
+    }
+  },
+  "server_metrics": {}
+}

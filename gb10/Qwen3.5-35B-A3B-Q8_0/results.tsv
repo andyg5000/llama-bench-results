@@ -1,0 +1,2 @@
+step	experiment	ctx_size	cache_k	cache_v	batch	ubatch	parallel	coding_grade	agentic_grade	speed_grade	context_grade	gen_tps	pp_tps	composite_score	kept	analysis
+2	002_auto_baseline_f16_65k	65536	f16	f16	1024	256	1	C	B-	B+	A+	50.12	1343.39	0.6553	yes	No experiments completed yet - need to establish a safe baseline configuration. Starting with f16 cache for maximum compatibility, moderate context size (65536) to balance memory and performance, and 
